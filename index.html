@@ -8,14 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Chosen Palette: Protopian Light Synthesis (Warm neutral background #F8FAFC, Deep Canvas text #16082B, Synthesis Neon accents #B533FF, Soft Emerald for ecological highlights, plus Core Blue and Core Red for the synthesis illustration). -->
+    <!-- Chosen Palette: Protopian Light Synthesis (Warm neutral background #F8FAFC, Deep Canvas text #16082B, Synthesis Neon accents #B533FF, Soft Emerald for ecological highlights, plus Core Blue #2563EB and Core Red #DC2626). -->
     
-    <!-- Application Structure Plan: A flowing narrative structure designed for calm onboarding. It moves from the core philosophy (Purple Synthesis) into the practical rhythm of participation (Civic Surges), then outlines the technical bedrock (Open Source Governance), and finishes with actionable policy pillars. This avoids dashboard overwhelm and focuses on an invitation to steward the future. -->
+    <!-- Application Structure Plan: A clean, calm, and linear invitation to participate. We guide the user through the core philosophy (The Purple Synthesis), explain the practical rhythm of engagement (Major and Minor Civic Surges), outline the secure technical foundation (Decentralised Systems), and present grounded policy outcomes. The design prioritises whitespace, legible typography, and gentle interactions to reflect stewardship and joy, avoiding overwhelming corporate dashboard layouts. -->
     
     <!-- Visualization & Content Choices: 
-         1. The Purple Synthesis -> Goal: Inform -> CSS Flexbox Diagram -> Interaction: Hover states to reveal text -> Justification: Clearly illustrates Blue + Red = Purple without relying on SVG.
-         2. Civic Surge Rhythm -> Goal: Change/Process -> Interactive Line/Area Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Perfectly visualises the "pulse" of surges vs rest periods, proving we don't demand continuous, overwhelming engagement.
-         3. Governance Stack -> Goal: Organize -> Interactive HTML/Tailwind Stack -> Interaction: Click to expand layers -> Justification: Replaces old tech talk with a clean, tactile representation of the CRDT/Decentralised architecture.
+         1. The Purple Synthesis -> Goal: Inform -> CSS Flexbox Diagram -> Interaction: Hover states to reveal the synthesis -> Justification: Clearly illustrates the blending of Blue and Red traditions into a unified Purple vision without relying on SVG.
+         2. Civic Surge Rhythm -> Goal: Change/Process -> Interactive Line Chart (Chart.js) -> Interaction: Hover tooltips explaining the seasonal cadence -> Justification: Visually proves that gamified democracy is a sustainable "pulse" (Major March surges, gentle Minor ripples), demonstrating respect for the community's time.
+         3. The Sovereignty Stack -> Goal: Organize -> Interactive HTML/Tailwind List -> Interaction: Click to expand details -> Justification: Translates complex open-source governance concepts into a tactile, easy-to-understand format.
     -->
     
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -47,217 +47,267 @@
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
             height: 50vh;
-            min-height: 300px;
-            max-height: 400px;
+            min-height: 350px;
+            max-height: 450px;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f3f4f6;
         }
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+        .glass-nav {
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
         }
 
-        .synthesis-node {
-            transition: all 0.4s ease;
+        .synthesis-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .synthesis-node:hover {
-            transform: scale(1.05);
+        .synthesis-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px -8px rgba(22, 8, 43, 0.1);
         }
 
-        .stack-layer {
+        .stack-item {
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        .stack-layer:hover {
-            transform: translateX(10px);
+        .stack-item:hover {
+            background-color: #F3E8FF;
             border-left-color: #B533FF;
+            transform: translateX(6px);
         }
+        
+        /* Soften the scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F8FAFC; }
+        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
     </style>
 </head>
 <body class="antialiased selection:bg-p-neon selection:text-white">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-panel border-b border-gray-200">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center font-display font-bold text-2xl tracking-wider text-p-dark">
-                    <span class="text-p-neon mr-2">❖</span> P4A
+    <nav class="fixed w-full z-50 glass-nav">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center font-display font-bold text-3xl tracking-wider text-p-dark cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-p-neon mr-2 text-4xl">∞</span> P4A
                 </div>
-                <div class="hidden md:flex space-x-8 font-display font-semibold tracking-wide text-sm text-gray-600">
-                    <a href="#synthesis" class="hover:text-p-neon transition-colors">THE SYNTHESIS</a>
-                    <a href="#surges" class="hover:text-p-neon transition-colors">CIVIC SURGES</a>
-                    <a href="#architecture" class="hover:text-p-neon transition-colors">ARCHITECTURE</a>
-                    <a href="#policies" class="hover:text-p-neon transition-colors">POLICIES</a>
+                <div class="hidden md:flex space-x-10 font-display font-semibold tracking-wide text-sm text-gray-600">
+                    <a href="#synthesis" class="hover:text-p-neon transition-colors duration-200">THE SYNTHESIS</a>
+                    <a href="#surges" class="hover:text-p-neon transition-colors duration-200">CIVIC SURGES</a>
+                    <a href="#foundation" class="hover:text-p-neon transition-colors duration-200">FOUNDATION</a>
+                    <a href="#stewardship" class="hover:text-p-neon transition-colors duration-200">STEWARDSHIP</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <main class="pt-32 pb-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-32">
+    <!-- Welcome / Hero Section -->
+    <main class="pt-36 pb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-36">
         
-        <section class="text-center space-y-6 animate-fade-in-up">
-            <div class="inline-flex items-center space-x-2 bg-p-light text-p-dark px-4 py-2 rounded-full font-display font-bold text-xs tracking-widest border border-p-neon/30 mb-4">
-                <span class="w-2 h-2 rounded-full bg-p-neon animate-pulse"></span>
-                <span>BUILDING THE CYBER REPUBLIC</span>
+        <section class="text-center space-y-8 max-w-4xl mx-auto">
+            <div class="inline-flex items-center space-x-3 bg-white text-p-dark px-6 py-2.5 rounded-full font-display font-bold text-xs tracking-widest border border-gray-200 shadow-sm">
+                <span class="text-p-neon text-lg">✦</span>
+                <span>A SINCERE INVITATION</span>
             </div>
-            <h1 class="font-display text-5xl md:text-7xl font-bold text-p-dark leading-tight">
+            <h1 class="font-display text-5xl md:text-7xl font-bold text-p-dark leading-tight tracking-tight">
                 Joyful. Responsible. <br/><span class="text-p-neon">Abundance.</span>
             </h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                We are stewarding an evolutionary leap for Australian governance. Moving past the adversarial noise of the metacrisis to build a resilient, beautiful, and highly functional Protopian future. Less splash, more class.
+            <p class="text-xl text-gray-600 leading-relaxed font-light">
+                We are stewarding a gentle but profound evolutionary leap for Australian governance. Moving past the noise and adversarial politics of the past, we are building a resilient, beautiful, and highly functional Protopian future. Less splash, more class.
             </p>
         </section>
 
         <!-- Section 1: The Purple Synthesis -->
-        <section id="synthesis" class="scroll-mt-24">
-            <div class="text-center mb-12">
-                <h2 class="font-display text-4xl font-bold text-p-dark mb-4">The Purple Synthesis</h2>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    The old world is locked in a zero-sum battle between two stagnant poles. We do not discard the past, we integrate its best parts. By intertwining the foundations of Blue and Red, we create a unified, generative Purple future.
+        <section id="synthesis" class="scroll-mt-32">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-5">The Purple Synthesis</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+                    We do not discard the past; we gather its most enduring strengths. By intertwining the foundations of Blue and Red traditions, we create a unified, generative Purple future that serves everyone.
                 </p>
             </div>
 
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-                <!-- Blue Node -->
-                <div class="synthesis-node bg-white border-2 border-p-blue/30 rounded-2xl p-6 w-full md:w-1/3 text-center shadow-sm" onmouseover="showSynthesisText('blue')" onmouseout="resetSynthesisText()">
-                    <div class="text-p-blue text-4xl mb-4 font-display font-bold">BLUE</div>
-                    <p class="text-sm text-gray-600">Enterprise, market efficiency, individual liberty, and economic stability.</p>
+            <div class="flex flex-col md:flex-row items-stretch justify-center gap-6">
+                <!-- Blue Pillar -->
+                <div class="synthesis-card bg-white border border-gray-100 rounded-3xl p-10 w-full md:w-1/3 text-center shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-p-blue opacity-80"></div>
+                    <div class="text-p-blue text-6xl mb-6 font-display font-bold tracking-tighter group-hover:scale-105 transition-transform">BLUE</div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Honouring the tradition of enterprise, market efficiency, individual liberty, and the economic stability required to build our future.
+                    </p>
                 </div>
 
-                <div class="text-2xl text-gray-400 font-bold hidden md:block">+</div>
+                <div class="flex items-center justify-center text-4xl text-gray-200 font-light hidden md:flex">+</div>
 
-                <!-- Red Node -->
-                <div class="synthesis-node bg-white border-2 border-p-red/30 rounded-2xl p-6 w-full md:w-1/3 text-center shadow-sm" onmouseover="showSynthesisText('red')" onmouseout="resetSynthesisText()">
-                    <div class="text-p-red text-4xl mb-4 font-display font-bold">RED</div>
-                    <p class="text-sm text-gray-600">Labour rights, social care, community solidarity, and foundational infrastructure.</p>
+                <!-- Red Pillar -->
+                <div class="synthesis-card bg-white border border-gray-100 rounded-3xl p-10 w-full md:w-1/3 text-center shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-p-red opacity-80"></div>
+                    <div class="text-p-red text-6xl mb-6 font-display font-bold tracking-tighter group-hover:scale-105 transition-transform">RED</div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Honouring the tradition of labour rights, deep social care, community solidarity, and robust public infrastructure.
+                    </p>
                 </div>
 
-                <div class="text-2xl text-gray-400 font-bold hidden md:block">=</div>
+                <div class="flex items-center justify-center text-4xl text-gray-200 font-light hidden md:flex">=</div>
 
-                <!-- Purple Node -->
-                <div class="synthesis-node bg-p-dark border-2 border-p-neon rounded-2xl p-6 w-full md:w-1/3 text-center shadow-lg transform md:scale-110" onmouseover="showSynthesisText('purple')" onmouseout="resetSynthesisText()">
-                    <div class="text-p-neon text-4xl mb-4 font-display font-bold">PURPLE</div>
-                    <p class="text-sm text-p-light">Joyful Abundance, regenerative assets, and advanced open-source governance.</p>
+                <!-- Purple Pillar -->
+                <div class="synthesis-card bg-p-dark rounded-3xl p-10 w-full md:w-1/3 text-center shadow-xl relative overflow-hidden group ring-1 ring-p-neon/30">
+                    <div class="absolute inset-0 bg-gradient-to-br from-p-neon/20 to-transparent opacity-50"></div>
+                    <div class="text-p-neon text-6xl mb-6 font-display font-bold tracking-tighter relative z-10 group-hover:scale-105 transition-transform">PURPLE</div>
+                    <p class="text-sm text-p-light leading-relaxed relative z-10">
+                        Joyful abundance, regenerative community assets, and advanced open-source stewardship. Brilliant enterprise funding deep social care.
+                    </p>
                 </div>
-            </div>
-
-            <div id="synthesis-detail" class="mt-8 text-center text-gray-500 italic h-12 transition-opacity duration-300">
-                Hover over the pillars to explore the synthesis.
             </div>
         </section>
 
         <!-- Section 2: Civic Surges -->
-        <section id="surges" class="scroll-mt-24 bg-white p-8 md:p-12 rounded-3xl border border-gray-100 shadow-sm">
-            <div class="mb-10">
-                <h2 class="font-display text-4xl font-bold text-p-dark mb-4">Set-Piece Civic Surges</h2>
-                <p class="text-lg text-gray-600 max-w-3xl">
-                    Gamified democracy is not about exhausting our communities with continuous, daily demands. It is built on the concept of the <strong>Civic Surge</strong>. We gather, we focus our collective intelligence to solve specific local or national challenges, we upgrade the system, and then we rest.
+        <section id="surges" class="scroll-mt-32">
+            <div class="mb-14 text-center">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-5">The Rhythm of Democracy</h2>
+                <p class="text-lg text-gray-600 max-w-4xl mx-auto font-light leading-relaxed">
+                    Gamified democracy respects your time and energy. It is not an exhausting, continuous demand. It is built on a natural, seasonal rhythm of participation called <strong>Civic Surges</strong>. We gather to solve challenges, we upgrade our systems, and then we rest.
                 </p>
             </div>
 
-            <div class="chart-container mb-8">
+            <!-- Descriptive Cards First for Context -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:border-p-neon/50 transition-colors">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-p-light flex items-center justify-center text-2xl text-p-neon">🌊</div>
+                        <h3 class="font-display font-bold text-2xl text-p-dark">Major Surges</h3>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-sm mb-4">
+                        Massive, highly-coordinated events where the entire community focuses its intelligence.
+                    </p>
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-p-neon mr-2 font-bold">›</span>
+                            <span><strong>The March Surge:</strong> Our most important annual event. We formulate a comprehensive "Shadow Budget" in March, giving us a full month to shape the Federal Budget in May.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-p-neon mr-2 font-bold">›</span>
+                            <span><strong>Election Campaigns:</strong> Surges activated during federal or state election cycles to mobilise the Cyber Republic.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:border-p-emerald/50 transition-colors">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-2xl text-p-emerald">💧</div>
+                        <h3 class="font-display font-bold text-2xl text-p-dark">Minor Surges</h3>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-sm mb-4">
+                        The gentle, ongoing pulse of local stewardship. The exact timing is entirely up to you.
+                    </p>
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-p-emerald mr-2 font-bold">›</span>
+                            <span><strong>Community Voted Cadence:</strong> Your local area decides the rhythm. It could be one week a month, two dedicated weekends, or aligned with school and public holidays.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-p-emerald mr-2 font-bold">›</span>
+                            <span><strong>Fractional Participation:</strong> You only vote on the local issues you care about, preventing burnout while maintaining community care.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chart Container -->
+            <div class="chart-container">
                 <canvas id="surgeChart"></canvas>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-                <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <div class="font-display font-bold text-lg text-p-dark mb-2">1. Preparation Phase</div>
-                    <p class="text-gray-600">Spec-driven policies are drafted openly on GitHub-style repositories. Communities review the data quietly at their own pace.</p>
-                </div>
-                <div class="p-4 bg-p-light border border-p-neon rounded-xl shadow-sm">
-                    <div class="font-display font-bold text-lg text-p-neon mb-2">2. The Civic Surge</div>
-                    <p class="text-p-dark">A focused, joyful, and gamified event (e.g. over a weekend). Communities collaborate, vote, and allocate resources to solve the specific brief.</p>
-                </div>
-                <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <div class="font-display font-bold text-lg text-p-dark mb-2">3. Rest & Integration</div>
-                    <p class="text-gray-600">The software updates. Communities return to their lives, trusting the automated transparency of the system while the new policy takes effect.</p>
-                </div>
-            </div>
+            <p class="text-center text-sm text-gray-500 mt-4 italic">
+                A visualisation of a healthy democratic pulse: focused surges of activity followed by essential periods of rest and system integration.
+            </p>
         </section>
 
-        <!-- Section 3: Open Source Architecture -->
-        <section id="architecture" class="scroll-mt-24">
-            <div class="mb-10">
-                <h2 class="font-display text-4xl font-bold text-p-dark mb-4">Decentralised Software Architecture</h2>
-                <p class="text-lg text-gray-600 max-w-3xl">
-                    We are replacing brittle legacy bureaucracy with an open-source, spec-driven governance model. This is the underlying engine of the Cyber Republic, ensuring our data and our decisions remain securely in the hands of the community.
+        <!-- Section 3: The Foundation (Architecture) -->
+        <section id="foundation" class="scroll-mt-32">
+            <div class="mb-14">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-5">A Decentralised Foundation</h2>
+                <p class="text-lg text-gray-600 max-w-3xl font-light leading-relaxed">
+                    We are replacing brittle, closed-door bureaucracy with open-source stewardship. This secure technical foundation ensures that community data and decision-making power remain safely in the hands of the people.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Stack Visualisation -->
-                <div class="space-y-4">
-                    <div class="stack-layer bg-white p-5 rounded-xl border-l-4 border-gray-300 shadow-sm flex items-center justify-between" onclick="updateStackDetail('spec')">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+                <!-- Interactive List -->
+                <div class="lg:col-span-5 space-y-3">
+                    <div class="stack-item bg-white p-6 rounded-2xl border-l-4 border-gray-200 shadow-sm flex items-center justify-between" onclick="updateStackDetail('spec')">
                         <div>
-                            <h4 class="font-display font-bold text-xl text-p-dark">Spec-Driven Repositories</h4>
-                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Policy as Code</p>
+                            <h4 class="font-display font-bold text-xl text-p-dark mb-1">Policy as Code</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-semibold">Open Repositories</p>
                         </div>
-                        <div class="text-gray-400">►</div>
+                        <div class="text-gray-300 font-display text-2xl">›</div>
                     </div>
                     
-                    <div class="stack-layer bg-white p-5 rounded-xl border-l-4 border-gray-300 shadow-sm flex items-center justify-between" onclick="updateStackDetail('civic')">
+                    <div class="stack-item bg-white p-6 rounded-2xl border-l-4 border-gray-200 shadow-sm flex items-center justify-between" onclick="updateStackDetail('civic')">
                         <div>
-                            <h4 class="font-display font-bold text-xl text-p-dark">L0-L3 Fractional Governance</h4>
-                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Topological Structure</p>
+                            <h4 class="font-display font-bold text-xl text-p-dark mb-1">Fractional Governance</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-semibold">L0 to L3 Voting</p>
                         </div>
-                        <div class="text-gray-400">►</div>
+                        <div class="text-gray-300 font-display text-2xl">›</div>
                     </div>
 
-                    <div class="stack-layer bg-white p-5 rounded-xl border-l-4 border-gray-300 shadow-sm flex items-center justify-between" onclick="updateStackDetail('data')">
+                    <div class="stack-item bg-white p-6 rounded-2xl border-l-4 border-gray-200 shadow-sm flex items-center justify-between" onclick="updateStackDetail('data')">
                         <div>
-                            <h4 class="font-display font-bold text-xl text-p-dark">The Sovereignty Stack</h4>
-                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">CRDTs & W3C DIDs</p>
+                            <h4 class="font-display font-bold text-xl text-p-dark mb-1">The Sovereignty Stack</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-semibold">Data Protection</p>
                         </div>
-                        <div class="text-gray-400">►</div>
+                        <div class="text-gray-300 font-display text-2xl">›</div>
                     </div>
                 </div>
 
-                <!-- Dynamic Content Area -->
-                <div id="stack-detail" class="bg-gray-50 p-8 rounded-2xl border border-gray-200 min-h-[250px] flex flex-col justify-center">
-                    <div class="text-center text-gray-500 italic">
-                        Select a layer from the architecture stack to view the technical specifications.
+                <!-- Dynamic Content Display -->
+                <div id="stack-detail" class="lg:col-span-7 bg-white p-10 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-center min-h-[300px] transition-opacity duration-300">
+                    <div class="text-center text-gray-400 font-light text-lg">
+                        Select a layer from the foundation list to view how we protect and empower your voice.
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Stewardship & Policy -->
-        <section id="policies" class="scroll-mt-24">
-            <div class="mb-10 text-center">
-                <h2 class="font-display text-4xl font-bold text-p-dark mb-4">Foundational Stewardship</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    A glimpse into the policies designed to cultivate resilience, protect our ecology, and unlock the trapped capital within our communities.
+        <!-- Section 4: Stewardship & Policies -->
+        <section id="stewardship" class="scroll-mt-32">
+            <div class="mb-14 text-center">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-5">Practical Stewardship</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                    A look at the grounded policies designed to cultivate local resilience, protect our ecology, and unlock the value already present within our communities.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-p-emerald transition-colors">
-                    <div class="text-3xl mb-4">🌿</div>
-                    <h3 class="font-display font-bold text-2xl mb-3 text-p-dark">The Braided Economy</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">
-                        Transitioning to regenerative assets. We aim to monetise the foundational economy by introducing the Community-Hour (C-Hour), unlocking value in civic care, local agriculture, and ecological restoration that traditional metrics ignore.
+                <div class="bg-white border border-gray-100 rounded-3xl p-10 hover:shadow-md transition-shadow">
+                    <div class="text-4xl mb-6 text-p-emerald">🌿</div>
+                    <h3 class="font-display font-bold text-2xl mb-4 text-p-dark">The Braided Economy</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm font-light">
+                        We aim to value the foundational work that traditional economics ignores. By introducing the Community-Hour (C-Hour), we can unlock and reward the immense value found in civic care, local agriculture, and ecological restoration.
                     </p>
                 </div>
                 
-                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-p-neon transition-colors">
-                    <div class="text-3xl mb-4">⚖️</div>
-                    <h3 class="font-display font-bold text-2xl mb-3 text-p-dark">Ethical Overcompliance</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">
-                        Bypassing electoral lying privileges. We hold ourselves to a standard that legacy systems cannot match without breaking. Featuring open Automated Decision Making (ADM) logs and adopting strict anti-lying paradigms inspired by the Welsh Senedd model.
+                <div class="bg-white border border-gray-100 rounded-3xl p-10 hover:shadow-md transition-shadow">
+                    <div class="text-4xl mb-6 text-p-neon">⚖️</div>
+                    <h3 class="font-display font-bold text-2xl mb-4 text-p-dark">Ethical Overcompliance</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm font-light">
+                        We hold ourselves to a standard of truth that legacy politics cannot match. Inspired by the Welsh Senedd model, we are adopting strict anti-lying paradigms and open Automated Decision Making (ADM) logs to guarantee absolute transparency.
                     </p>
                 </div>
 
-                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-gray-400 transition-colors md:col-span-2 flex flex-col md:flex-row items-center gap-6">
-                    <div class="text-4xl">🏛️</div>
+                <div class="bg-white border border-gray-100 rounded-3xl p-10 hover:shadow-md transition-shadow md:col-span-2 flex flex-col md:flex-row items-center gap-10">
+                    <div class="text-6xl opacity-80">🏛️</div>
                     <div>
-                        <h3 class="font-display font-bold text-2xl mb-3 text-p-dark">Geophysical Security & Silica Citadels</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            Preparing for systemic shocks and Black Swan events. This involves investing in secure, decentralised edge nodes, material sovereignty, and resilient local infrastructure to ensure communities like Amity Point remain safe, connected, and functional regardless of global turbulence.
+                        <h3 class="font-display font-bold text-2xl mb-4 text-p-dark">Geophysical Security & Local Resilience</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm font-light">
+                            Preparing our home for systemic changes. We are focused on securing local material supply lines and resilient community infrastructure. We want to ensure that all our communities, from major metropolitan hubs to regional coastal areas like Redcliffe and Amity Point, remain safe, connected, and prosperous regardless of global turbulence.
                         </p>
                     </div>
                 </div>
@@ -266,87 +316,81 @@
 
     </main>
 
-    <footer class="bg-p-dark text-white py-12 border-t-4 border-p-neon mt-12">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-            <div class="text-p-neon text-3xl mb-4">❖</div>
-            <h2 class="font-display text-2xl font-bold mb-2 tracking-widest">P4A</h2>
-            <p class="text-p-light/70 text-sm mb-8">JOYFUL. RESPONSIBLE. ABUNDANCE.</p>
-            <div class="text-xs text-gray-500 font-mono">
-                System engineered for the Australian Cyber Republic.
+    <footer class="bg-p-dark text-white py-20 border-t-[8px] border-p-neon">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+            <div class="text-p-neon text-5xl mb-8 font-light tracking-tighter">∞</div>
+            <h2 class="font-display text-3xl font-bold mb-4 tracking-widest text-white">P4A</h2>
+            <p class="text-p-light/80 text-sm mb-10 font-semibold tracking-widest">JOYFUL. RESPONSIBLE. ABUNDANCE.</p>
+            <div class="text-xs text-gray-400 font-sans max-w-md leading-relaxed">
+                An invitation to build a better Australian future. Less splash, more class.
             </div>
         </div>
     </footer>
 
-    <!-- Logic -->
+    <!-- Application Logic -->
     <script>
-        // --- Synthesis Hover Logic ---
-        function showSynthesisText(color) {
-            const detailText = document.getElementById('synthesis-detail');
-            detailText.style.opacity = '0';
-            
-            setTimeout(() => {
-                if (color === 'blue') {
-                    detailText.innerHTML = "<span class='text-p-blue font-bold'>The Blue tradition</span> brings respect for institutional stability, secure borders, and the dynamic engine of free enterprise.";
-                } else if (color === 'red') {
-                    detailText.innerHTML = "<span class='text-p-red font-bold'>The Red tradition</span> brings an unwavering commitment to the working class, public health, and communal solidarity.";
-                } else if (color === 'purple') {
-                    detailText.innerHTML = "<span class='text-p-neon font-bold'>The Purple Synthesis</span> integrates both. We use brilliant enterprise to fund robust social care, governed by transparent technology.";
-                }
-                detailText.style.opacity = '1';
-            }, 150);
-        }
-
-        function resetSynthesisText() {
-            const detailText = document.getElementById('synthesis-detail');
-            detailText.style.opacity = '0';
-            setTimeout(() => {
-                detailText.innerHTML = "Hover over the pillars to explore the synthesis.";
-                detailText.style.opacity = '1';
-            }, 150);
-        }
-
         // --- Civic Surge Chart Logic ---
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('surgeChart').getContext('2d');
+            const canvas = document.getElementById('surgeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             
-            // Data representing short bursts of high energy followed by low energy rest periods
-            const labels = ['Jan', 'Feb (Prep)', 'March (Surge)', 'Apr (Rest)', 'May (Rest)', 'Jun (Prep)', 'Jul (Surge)', 'Aug (Rest)'];
-            const dataPoints = [10, 20, 95, 10, 10, 25, 100, 10];
+            // Simulating a standard year based on the community rhythm.
+            // High peak in March (Major Surge for Shadow Budget)
+            // High peak in November (Simulated Election Campaign Major Surge)
+            // Smaller peaks for community-voted Minor Surges (e.g., during school/public holidays)
+            // Low points represent essential rest and integration.
+            const labels = ['Jan (Rest)', 'Feb (Rest)', 'Mar (Major: Budget)', 'Apr (Rest)', 'May (Budget Month)', 'Jun (Minor: Holidays)', 'Jul (Rest)', 'Aug (Minor Surge)', 'Sep (Rest)', 'Oct (Minor: Holidays)', 'Nov (Major: Election)', 'Dec (Rest)'];
+            const dataPoints = [5, 5, 95, 5, 10, 35, 5, 30, 5, 35, 90, 5];
+
+            // Create a soft gradient for the fill
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(181, 51, 255, 0.2)');
+            gradient.addColorStop(1, 'rgba(181, 51, 255, 0.0)');
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Civic Engagement Energy',
+                        label: 'Community Participation Pulse',
                         data: dataPoints,
                         borderColor: '#B533FF',
-                        backgroundColor: 'rgba(181, 51, 255, 0.1)',
+                        backgroundColor: gradient,
                         borderWidth: 3,
-                        pointBackgroundColor: '#16082B',
+                        pointBackgroundColor: '#ffffff',
                         pointBorderColor: '#B533FF',
+                        pointBorderWidth: 2,
                         pointRadius: 5,
                         pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#16082B',
+                        pointHoverBorderColor: '#B533FF',
                         fill: true,
-                        tension: 0.4 // Smooth curves
+                        tension: 0.45 // Very smooth, natural wave
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: '#16082B',
-                            titleFont: { family: 'Rajdhani', size: 14 },
+                            backgroundColor: 'rgba(22, 8, 43, 0.95)',
+                            titleFont: { family: 'Rajdhani', size: 15, weight: 'bold' },
                             bodyFont: { family: 'Inter', size: 13 },
-                            padding: 12,
+                            padding: 16,
+                            cornerRadius: 8,
                             displayColors: false,
                             callbacks: {
                                 label: function(context) {
-                                    if(context.raw > 80) return "High Focus: Active Civic Surge!";
-                                    if(context.raw > 15) return "Preparation: Reviewing Specs.";
-                                    return "Rest Period: System Integration.";
+                                    const value = context.raw;
+                                    if(value >= 90) return "MAJOR SURGE: High community focus and voting.";
+                                    if(value >= 30) return "MINOR SURGE: Community-selected local voting block.";
+                                    return "REST PERIOD: System integration and community rest.";
                                 }
                             }
                         }
@@ -354,32 +398,43 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 110,
-                            grid: { color: 'rgba(0,0,0,0.05)' },
-                            ticks: { display: false } // Hide numbers to focus on the shape/pulse
+                            max: 105,
+                            grid: { 
+                                color: 'rgba(0,0,0,0.03)',
+                                drawBorder: false
+                            },
+                            ticks: { display: false } // Hide numbers to emphasize the rhythm
                         },
                         x: {
-                            grid: { display: false },
-                            ticks: { font: { family: 'Inter' } }
+                            grid: { display: false, drawBorder: false },
+                            ticks: { 
+                                font: { family: 'Inter', size: 11 },
+                                color: '#6B7280',
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
                         }
                     }
                 }
             });
         });
 
-        // --- Architecture Stack Logic ---
+        // --- Foundation Stack Logic ---
         const stackData = {
             spec: {
-                title: "Spec-Driven Repositories",
-                desc: "Instead of back-room deals, policy is treated like open-source software. Drafts are hosted in public, GitHub-style repositories. This allows university networks, experts, and citizens to track changes, suggest amendments, and review the exact specifications of a policy before a surge begins."
+                title: "Policy as Code (Open Repositories)",
+                icon: "📝",
+                desc: "Instead of back-room deals, policy drafts are hosted in public, open-source repositories online. This allows experts, university networks, and citizens to track changes, suggest amendments, and review the exact specifications of a policy in the quiet weeks before a voting surge begins."
             },
             civic: {
-                title: "L0-L3 Fractional Governance",
-                desc: "A topological structure that organises decision-making based on impact scale. L0 handles deeply local issues (e.g. street-level infrastructure), scaling up to L3 for national architectural concerns. This ensures people only vote on matters that affect them, reducing fatigue."
+                title: "Fractional Governance (L0 to L3)",
+                icon: "🏘️",
+                desc: "We use a layered voting structure based on impact. 'L0' handles deeply local neighbourhood issues, scaling all the way up to 'L3' for national decisions. This ensures you only need to vote on matters that directly affect your life or community, drastically reducing voter fatigue."
             },
             data: {
                 title: "The Sovereignty Stack",
-                desc: "We utilise Conflict-Free Replicated Data Types (CRDTs) and W3C Decentralised Identifiers (DIDs). This means your data isn't held in a vulnerable central honeypot. It guarantees cryptographic privacy while maintaining verifiable, secure voting mechanisms during Civic Surges."
+                icon: "🔐",
+                desc: "Your data is yours. We utilise Conflict-Free Replicated Data Types (CRDTs) and W3C Decentralised Identifiers (DIDs). In simple terms, this means your voting identity and data are protected by cryptography and not held in a vulnerable central database. It guarantees privacy while maintaining secure voting."
             }
         };
 
@@ -387,22 +442,26 @@
             const detailBox = document.getElementById('stack-detail');
             const data = stackData[layer];
 
-            // Reset borders
-            document.querySelectorAll('.stack-layer').forEach(el => {
-                el.classList.remove('border-p-neon');
-                el.classList.add('border-gray-300');
+            // Reset list item styles
+            document.querySelectorAll('.stack-item').forEach(el => {
+                el.classList.remove('border-p-neon', 'bg-p-light');
+                el.classList.add('border-gray-200', 'bg-white');
             });
             
-            // Set active border
-            event.currentTarget.classList.remove('border-gray-300');
-            event.currentTarget.classList.add('border-p-neon');
+            // Apply active styles to clicked item
+            const currentTarget = event.currentTarget;
+            currentTarget.classList.remove('border-gray-200', 'bg-white');
+            currentTarget.classList.add('border-p-neon', 'bg-p-light');
 
-            // Update content with slight fade
+            // Update content with a smooth fade
             detailBox.style.opacity = '0';
             setTimeout(() => {
                 detailBox.innerHTML = `
-                    <h3 class="font-display font-bold text-2xl text-p-dark mb-4">${data.title}</h3>
-                    <p class="text-gray-700 leading-relaxed">${data.desc}</p>
+                    <div class="h-full flex flex-col justify-center animate-fade-in">
+                        <div class="text-5xl mb-6">${data.icon}</div>
+                        <h3 class="font-display font-bold text-3xl text-p-dark mb-4">${data.title}</h3>
+                        <p class="text-gray-600 text-base leading-relaxed font-light">${data.desc}</p>
+                    </div>
                 `;
                 detailBox.style.opacity = '1';
             }, 200);
