@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPPPA Deployment: Digital & Policy Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Protopian Light Synthesis (Warm neutral background #F8FAFC, Deep Canvas text #16082B, Synthesis Neon accents #B533FF, Soft Emerald for ecological highlights). -->
+    
+    <!-- Application Structure Plan: The SPA is structured as a continuous, narrative-driven dashboard. It flows logically from the problem statement (the Metacrisis) into landscape analysis, digital architecture, and finally, policy execution. This structure was chosen to guide the user (Gen XYZ) through a 'civilizational upgrade' journey. It utilizes a sticky top navigation for quick access, interactive radar charts for competitive analysis, and expandable grids for policy deep-dives, ensuring high-density information is consumable without overwhelming the user. -->
+    
+    <!-- Visualization & Content Choices: 
+         1. Political Landscape Matrix -> Goal: Compare -> Radar Chart (Chart.js) -> Interactive toggles -> Justification: Radar charts perfectly illustrate multi-dimensional comparisons (agility, transparency, etc.) across different political entities without using static SVG matrices. 
+         2. Digital Architecture -> Goal: Organize -> Interactive HTML/Tailwind Flow Grid -> Click to reveal details -> Justification: Avoids Mermaid/SVG while providing a clean, responsive structural breakdown of the WordPress/deployment strategy.
+         3. Core Policies & Ethical Overcompliance -> Goal: Inform/Explore -> Dynamic HTML Cards -> Hover/Click state changes -> Justification: Allows users to explore dense text interactively at their own pace.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        'p-dark': '#16082B',
+                        'p-neon': '#B533FF',
+                        'p-light': '#F3E8FF',
+                        'p-emerald': '#10B981'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #16082B; }
+        h1, h2, h3, h4, h5, .font-display { font-family: 'Rajdhani', sans-serif; }
+        
+        /* Strict Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 60vh;
+            min-height: 350px;
+            max-height: 500px;
+            padding: 1rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .policy-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(181, 51, 255, 0.2);
+            border-color: #B533FF;
+        }
+        
+        .arch-node {
+            transition: all 0.3s ease;
+        }
+        .arch-node:hover {
+            background-color: #F3E8FF;
+            border-color: #B533FF;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-p-neon selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center font-display font-bold text-2xl tracking-wider text-p-dark">
+                    <span class="text-p-neon mr-1">❖</span> PPPPA<span class="text-gray-400 text-lg ml-2">Deployment Hub</span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-display font-semibold tracking-wide text-sm">
+                    <a href="#context" class="text-gray-600 hover:text-p-neon transition-colors">METACRISIS</a>
+                    <a href="#landscape" class="text-gray-600 hover:text-p-neon transition-colors">LANDSCAPE</a>
+                    <a href="#architecture" class="text-gray-600 hover:text-p-neon transition-colors">ARCHITECTURE</a>
+                    <a href="#policy" class="text-gray-600 hover:text-p-neon transition-colors">POLICY & ETHICS</a>
+                    <a href="#aesthetics" class="text-gray-600 hover:text-p-neon transition-colors">AESTHETICS</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+
+        <!-- Section 1: Introduction / Context -->
+        <section id="context" class="scroll-mt-24">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h1 class="font-display text-5xl md:text-6xl font-bold text-p-dark mb-6 leading-tight">
+                    Architecting the <span class="text-p-neon">Civilizational</span> Upgrade
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    The Australian socio-political landscape is navigating a profound metacrisis—ecological fragility, institutional sclerosis, and rapid technological disruption. Traditional governance models are high-latency and zero-sum. The People's Purple Protopian Party of Australia (PPPPA) deployment utilizes digital architecture not merely as a broadcast medium, but as the primary interface for civic engagement, ideological signaling, and democratic onboarding.
+                </p>
+                <div class="inline-flex items-center space-x-2 bg-p-light text-p-dark px-6 py-3 rounded-full font-display font-bold text-sm tracking-widest border border-p-neon/30">
+                    <span>STATUS:</span>
+                    <span class="w-2 h-2 rounded-full bg-p-neon animate-pulse"></span>
+                    <span>SYSTEM AWAITING DEPLOYMENT</span>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <div class="text-3xl mb-4">🌪️</div>
+                    <h3 class="font-display font-bold text-xl mb-2">The Metacrisis</h3>
+                    <p class="text-gray-600 text-sm">Legacy systems are failing to manage the velocity of modern systemic shocks, operating on "Windows 95 bureaucracy."</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <div class="text-3xl mb-4">🎮</div>
+                    <h3 class="font-display font-bold text-xl mb-2">Gamified Democracy</h3>
+                    <p class="text-gray-600 text-sm">Shifting the paradigm from passive voting to continuous, engaging civic micro-actions to rebuild institutional trust.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm ring-1 ring-p-neon/20">
+                    <div class="text-3xl mb-4">💜</div>
+                    <h3 class="font-display font-bold text-xl mb-2">Purple Synthesis</h3>
+                    <p class="text-gray-600 text-sm">Blending ecological stewardship (Green/Blue) with robust technological infrastructure and joyful abundance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Landscape Analysis Matrix -->
+        <section id="landscape" class="scroll-mt-24">
+            <div class="mb-8">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-4 border-l-4 border-p-neon pl-4">Political Landscape Analysis</h2>
+                <p class="text-gray-600 max-w-4xl text-lg">
+                    This section visualizes the comprehensive policy and digital matrix of the Australian political ecosystem. By mapping Major Parties, the Greens, and Populist/Independent vehicles against key protopian metrics, we identify the strategic void the PPPPA is engineered to fill. The radar chart below demonstrates the comparative systemic readiness of these entities.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8 items-center">
+                <!-- Chart Container (Strict constraints applied) -->
+                <div class="w-full lg:w-3/5">
+                    <div class="chart-container">
+                        <canvas id="landscapeChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Interactive Controls & Details -->
+                <div class="w-full lg:w-2/5 space-y-4" id="landscape-details">
+                    <h3 class="font-display font-bold text-2xl mb-4">Entity Diagnostics</h3>
+                    
+                    <button onclick="updateChartEmphasis('major')" class="w-full text-left bg-white p-4 rounded-lg border border-gray-200 hover:border-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-200">
+                        <div class="flex justify-between items-center font-bold">
+                            <span>Major Parties & Coalition</span>
+                            <span class="text-gray-400">►</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">High latency data. Low digital agility. Reliant on broadcast over engagement.</p>
+                    </button>
+                    
+                    <button onclick="updateChartEmphasis('greens')" class="w-full text-left bg-white p-4 rounded-lg border border-green-200 hover:border-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-green-200">
+                        <div class="flex justify-between items-center font-bold text-green-800">
+                            <span>The Australian Greens</span>
+                            <span class="text-green-400">►</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">Strong ecological metrics, but lacks technical gamification and abundance narratives.</p>
+                    </button>
+
+                    <button onclick="updateChartEmphasis('populist')" class="w-full text-left bg-white p-4 rounded-lg border border-orange-200 hover:border-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-200">
+                        <div class="flex justify-between items-center font-bold text-orange-800">
+                            <span>Populist / Independents</span>
+                            <span class="text-orange-400">►</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">High ideological signalling, fragmented architecture, zero-sum mechanics.</p>
+                    </button>
+
+                    <button onclick="updateChartEmphasis('ppppa')" class="w-full text-left bg-p-light p-4 rounded-lg border border-p-neon shadow-sm focus:outline-none focus:ring-2 focus:ring-p-neon">
+                        <div class="flex justify-between items-center font-bold text-p-dark">
+                            <span>PPPPA (Stewardship Model)</span>
+                            <span class="text-p-neon">►</span>
+                        </div>
+                        <p class="text-sm text-gray-700 mt-1">Maximum digital agility, deep civic gamification, and ethical overcompliance.</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Digital Architecture & Onboarding -->
+        <section id="architecture" class="scroll-mt-24">
+            <div class="mb-8">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-4 border-l-4 border-p-emerald pl-4">Actionable WordPress Architecture</h2>
+                <p class="text-gray-600 max-w-4xl text-lg">
+                    The PPPPA's digital presence requires a robust, scalable architecture. This section outlines the structural plan for deployment. Rather than a static brochure, the website is an onboarding machine, converting passive observers into active participants in the liquid democracy experiment through strategic content prioritization and clear user flows.
+                </p>
+            </div>
+
+            <!-- Interactive Architecture Diagram using Tailwind Grid -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center relative">
+                    
+                    <!-- Flow Connectors (CSS based) -->
+                    <div class="hidden md:block absolute top-1/2 left-[16%] right-[16%] h-1 bg-gray-100 -z-10 transform -translate-y-1/2"></div>
+
+                    <!-- Tier 1 -->
+                    <div class="arch-node bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer relative" onclick="showArchDetail('frontend')">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">📱</div>
+                        <h4 class="font-display font-bold text-lg mb-2">Frontend Interface</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">WordPress / Tailwind</p>
+                    </div>
+
+                    <!-- Tier 2 -->
+                    <div class="arch-node bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer relative" onclick="showArchDetail('middleware')">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">⚙️</div>
+                        <h4 class="font-display font-bold text-lg mb-2">Civic Middleware</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Gamification / Auth</p>
+                    </div>
+
+                    <!-- Tier 3 -->
+                    <div class="arch-node bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer relative" onclick="showArchDetail('data')">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">🗄️</div>
+                        <h4 class="font-display font-bold text-lg mb-2">Sovereignty Stack</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Secure Data & Voting</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Detail Panel -->
+                <div id="arch-detail-panel" class="mt-8 bg-gray-50 rounded-lg p-6 border border-gray-100 min-h-[150px] transition-opacity duration-300">
+                    <div class="text-center text-gray-500 italic mt-4">Select an architectural node above to view deployment specifications.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Policy & Ethical Overcompliance -->
+        <section id="policy" class="scroll-mt-24">
+            <div class="mb-8">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-4 border-l-4 border-p-neon pl-4">Core Policies & Ethical Framework</h2>
+                <p class="text-gray-600 max-w-4xl text-lg">
+                    This section details the organizational structure and core protopian policies of the PPPPA. Central to this is the 'Ethical Overcompliance' framework—a strategy designed to radically out-perform legacy parties in transparency and truthfulness, establishing an unassailable baseline of trust required for a functional Cyber-Republic.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Policy Card 1 -->
+                <div class="policy-card bg-white border border-gray-200 rounded-xl p-6" onclick="togglePolicy(this)">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-2xl">⚖️</div>
+                        <span class="text-xs font-bold px-2 py-1 bg-gray-100 text-gray-600 rounded uppercase tracking-wider">Governance</span>
+                    </div>
+                    <h4 class="font-display font-bold text-xl mb-2">Ethical Overcompliance</h4>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3 policy-excerpt">Radical transparency architecture. Bypassing electoral lying privileges by adopting strict, cryptographically verifiable algorithmic policy tracing. We don't just follow the rules; we set a standard others cannot match without breaking their own systems.</p>
+                    <div class="policy-full hidden text-sm text-gray-700 mt-4 pt-4 border-t border-gray-100">
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Voluntary adoption of ADM (Automated Decision Making) transparency.</li>
+                            <li>Integration of truth-verification protocols inspired by the Welsh Senedd model.</li>
+                            <li>Open-source, spec-driven policy repositories (GitHub style).</li>
+                        </ul>
+                    </div>
+                    <div class="text-p-neon text-sm font-bold mt-2 text-right policy-toggle-text">Read More ▾</div>
+                </div>
+
+                <!-- Policy Card 2 -->
+                <div class="policy-card bg-white border border-gray-200 rounded-xl p-6" onclick="togglePolicy(this)">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-2xl">🌱</div>
+                        <span class="text-xs font-bold px-2 py-1 bg-p-light text-p-dark rounded uppercase tracking-wider">Economics</span>
+                    </div>
+                    <h4 class="font-display font-bold text-xl mb-2">Joyful Abundance</h4>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3 policy-excerpt">Unlocking trapped capital and transitioning to a regenerative, protopian economy. Focusing on material sovereignty while maintaining a playful, optimistic approach to civilizational scaling.</p>
+                    <div class="policy-full hidden text-sm text-gray-700 mt-4 pt-4 border-t border-gray-100">
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Implementation of the 'Braided Economy' model.</li>
+                            <li>Monetizing the foundational economy via the Community-Hour (C-Hour).</li>
+                            <li>Geophysical security and localized 'Silica Citadels'.</li>
+                        </ul>
+                    </div>
+                    <div class="text-p-neon text-sm font-bold mt-2 text-right policy-toggle-text">Read More ▾</div>
+                </div>
+
+                <!-- Policy Card 3 -->
+                <div class="policy-card bg-white border border-gray-200 rounded-xl p-6" onclick="togglePolicy(this)">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-2xl">⚡</div>
+                        <span class="text-xs font-bold px-2 py-1 bg-blue-100 text-blue-800 rounded uppercase tracking-wider">Technology</span>
+                    </div>
+                    <h4 class="font-display font-bold text-xl mb-2">Liquid Democracy UX</h4>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3 policy-excerpt">Designing the ultimate frontend for civic participation. Converting passive voters into active delegates through fluid, secure, and gamified digital interfaces.</p>
+                    <div class="policy-full hidden text-sm text-gray-700 mt-4 pt-4 border-t border-gray-100">
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Fractional governance and L0-L3 topological structures.</li>
+                            <li>Cryptographic identity integration (W3C DIDs).</li>
+                            <li>Interactive policy modelling simulating local impacts (e.g., Amity Point adaptation).</li>
+                        </ul>
+                    </div>
+                    <div class="text-p-neon text-sm font-bold mt-2 text-right policy-toggle-text">Read More ▾</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Aesthetic Synthesis -->
+        <section id="aesthetics" class="scroll-mt-24">
+            <div class="mb-8">
+                <h2 class="font-display text-4xl font-bold text-p-dark mb-4 border-l-4 border-p-neon pl-4">Aesthetic Synthesis & Brand Joy</h2>
+                <p class="text-gray-600 max-w-4xl text-lg">
+                    The visual identity of the PPPPA isn't just a coat of paint; it's a structural invitation to participate in a civilisational upgrade. By grounding our palette in a "Protopian Light Synthesis," we establish a space that feels highly technical, deeply ecological, and playfully optimistic. Less splash, more class.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="font-display font-bold text-2xl mb-4">Core Colour Interactions</h3>
+                    <p class="text-sm text-gray-600 mb-6">Hover over the swatches below to see how our core palette stewards the user experience.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer" onmouseover="updateColorPreview('#16082B', 'Deep Canvas', 'A much deeper, almost black purple. This is the true backdrop for the neon elements and deep space themes, providing grounded stability.')">
+                            <div class="w-12 h-12 rounded-full shadow-inner bg-[#16082B] flex-shrink-0"></div>
+                            <div>
+                                <div class="font-bold text-p-dark font-display text-lg">Deep Canvas</div>
+                                <div class="text-xs text-gray-500 font-mono">#16082B</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer" onmouseover="updateColorPreview('#B533FF', 'Synthesis Neon', 'The bright, glowing magenta/purple drawn from amethyst geodes. Used sparingly to highlight actionable civic touchpoints and moments of joy.')">
+                            <div class="w-12 h-12 rounded-full shadow-inner bg-[#B533FF] flex-shrink-0"></div>
+                            <div>
+                                <div class="font-bold text-p-dark font-display text-lg">Synthesis Neon</div>
+                                <div class="text-xs text-gray-500 font-mono">#B533FF</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer" onmouseover="updateColorPreview('#10B981', 'Soft Emerald', 'Representing ecological stewardship, regenerative systems, and Solarpunk integration. A visual breath of fresh air.')">
+                            <div class="w-12 h-12 rounded-full shadow-inner bg-[#10B981] flex-shrink-0"></div>
+                            <div>
+                                <div class="font-bold text-p-dark font-display text-lg">Soft Emerald</div>
+                                <div class="text-xs text-gray-500 font-mono">#10B981</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 flex flex-col justify-center items-center text-center transition-all duration-500 min-h-[300px]" id="color-preview-box">
+                    <div class="text-5xl mb-6 transition-transform duration-300 transform hover:scale-110" id="color-preview-icon">✨</div>
+                    <h4 class="font-display font-bold text-3xl mb-3" id="color-preview-title">Interact with the Palette</h4>
+                    <p class="text-gray-600 text-lg max-w-sm" id="color-preview-desc">Hover over the foundational colours on the left to reveal the logic behind our aesthetic stewardship.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-p-dark text-white py-12 border-t-4 border-p-neon">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-display text-2xl font-bold mb-4">JOYFUL. RESPONSIBLE. ABUNDANCE.</h2>
+            <p class="text-gray-400 mb-8">Less splash, more class. Gamify Democracy.</p>
+            <div class="text-sm text-gray-500">
+                Generated based on the Political Website Design and Policy Analysis Report for p4a.xyz deployment.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Logic -->
+    <script>
+        // --- 1. Radar Chart Logic (Chart.js) ---
+        let landscapeChartInstance = null;
+
+        const chartData = {
+            labels: [
+                'Digital Agility', 
+                'Civic Gamification', 
+                'Ecological Stewardship', 
+                'Ethical Transparency', 
+                'Future-Readiness',
+                'Algorithmic Governance'
+            ],
+            datasets: [
+                {
+                    label: 'Major Parties',
+                    data: [30, 10, 20, 30, 40, 20],
+                    backgroundColor: 'rgba(156, 163, 175, 0.2)', // gray
+                    borderColor: 'rgba(156, 163, 175, 1)',
+                    pointBackgroundColor: 'rgba(156, 163, 175, 1)',
+                    borderWidth: 2,
+                },
+                {
+                    label: 'The Greens',
+                    data: [50, 20, 90, 60, 50, 30],
+                    backgroundColor: 'rgba(16, 185, 129, 0.2)', // green
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                    borderWidth: 2,
+                    hidden: true // Hide initially to reduce clutter
+                },
+                {
+                    label: 'Populists',
+                    data: [60, 40, 10, 20, 20, 10],
+                    backgroundColor: 'rgba(249, 115, 22, 0.2)', // orange
+                    borderColor: 'rgba(249, 115, 22, 1)',
+                    pointBackgroundColor: 'rgba(249, 115, 22, 1)',
+                    borderWidth: 2,
+                    hidden: true
+                },
+                {
+                    label: 'PPPPA (Stewardship)',
+                    data: [95, 90, 85, 100, 95, 90],
+                    backgroundColor: 'rgba(181, 51, 255, 0.4)', // p-neon
+                    borderColor: '#B533FF',
+                    pointBackgroundColor: '#16082B',
+                    pointBorderColor: '#B533FF',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#B533FF',
+                    borderWidth: 3,
+                }
+            ]
+        };
+
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false, // Critical for container constraint
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                    grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                    pointLabels: {
+                        font: { family: 'Inter', size: 12, weight: '600' },
+                        color: '#16082B',
+                        callback: function(label) {
+                            // Label wrapping logic (approx 16 chars)
+                            if (label.length > 16) {
+                                let words = label.split(' ');
+                                let lines = [];
+                                let currentLine = '';
+                                words.forEach(word => {
+                                    if ((currentLine + word).length > 16) {
+                                        lines.push(currentLine);
+                                        currentLine = word + ' ';
+                                    } else {
+                                        currentLine += word + ' ';
+                                    }
+                                });
+                                lines.push(currentLine.trim());
+                                return lines;
+                            }
+                            return label;
+                        }
+                    },
+                    ticks: { display: false, min: 0, max: 100 }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { family: 'Inter', size: 12 } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(22, 8, 43, 0.9)',
+                    titleFont: { family: 'Rajdhani', size: 16 },
+                    bodyFont: { family: 'Inter', size: 14 },
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            }
+        };
+
+        function initChart() {
+            const ctx = document.getElementById('landscapeChart').getContext('2d');
+            landscapeChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: chartData,
+                options: chartOptions
+            });
+        }
+
+        function updateChartEmphasis(entityKey) {
+            const mappings = {
+                'major': 0,
+                'greens': 1,
+                'populist': 2,
+                'ppppa': 3
+            };
+            
+            const targetIndex = mappings[entityKey];
+            
+            // Toggle visibility to focus on target vs PPPPA
+            landscapeChartInstance.data.datasets.forEach((dataset, index) => {
+                if (index === 3) { // Always show PPPPA
+                    dataset.hidden = false;
+                } else if (index === targetIndex) {
+                    dataset.hidden = false;
+                } else {
+                    dataset.hidden = true;
+                }
+            });
+            
+            landscapeChartInstance.update();
+        }
+
+        // --- 2. Architecture Details Logic ---
+        const archData = {
+            frontend: {
+                title: "Frontend Interface (WordPress Integration)",
+                content: "The primary touchpoint. Utilizes a tailored WordPress architecture designed for rapid onboarding, SEO optimization, and aesthetic alignment with the 'Purple Synthesis' (Inter/Rajdhani fonts, specific color hexes). Focuses on clear UX to translate complex civilizational plans into digestible, interactive content.",
+                icon: "📱"
+            },
+            middleware: {
+                title: "Civic Middleware & Gamification",
+                content: "The bridge between reading and doing. Implements interactive mechanics to foster active learning. Manages user authentication, tracks 'Community-Hour' (C-Hour) progress, and handles the logic for ethical overcompliance display (e.g., ADM transparency logs).",
+                icon: "⚙️"
+            },
+            data: {
+                title: "Sovereignty Stack & Data Architecture",
+                content: "The bedrock. A decentralized, privacy-preserving infrastructure (leveraging CRDTs and Federated Learning concepts). Handles secure storage of liquid democracy votes, cryptographic identity management (W3C DIDs), and ensures material and data sovereignty.",
+                icon: "🗄️"
+            }
+        };
+
+        function showArchDetail(key) {
+            const panel = document.getElementById('arch-detail-panel');
+            const data = archData[key];
+            
+            // Highlight selected node
+            document.querySelectorAll('.arch-node').forEach(node => {
+                node.classList.remove('ring-2', 'ring-p-neon', 'bg-p-light');
+            });
+            event.currentTarget.classList.add('ring-2', 'ring-p-neon', 'bg-p-light');
+
+            // Update content with fade effect
+            panel.style.opacity = 0;
+            setTimeout(() => {
+                panel.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <div class="text-4xl bg-white p-3 rounded-full border border-gray-200 shadow-sm">${data.icon}</div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl text-p-dark mb-2">${data.title}</h4>
+                            <p class="text-gray-700 leading-relaxed">${data.content}</p>
+                        </div>
+                    </div>
+                `;
+                panel.style.opacity = 1;
+            }, 150);
+        }
+
+        // --- 3. Policy Card Interaction ---
+        function togglePolicy(cardElement) {
+            const fullContent = cardElement.querySelector('.policy-full');
+            const excerpt = cardElement.querySelector('.policy-excerpt');
+            const toggleText = cardElement.querySelector('.policy-toggle-text');
+            
+            if (fullContent.classList.contains('hidden')) {
+                fullContent.classList.remove('hidden');
+                excerpt.classList.remove('line-clamp-3');
+                toggleText.innerText = "Read Less ▴";
+                cardElement.classList.add('ring-2', 'ring-p-neon');
+            } else {
+                fullContent.classList.add('hidden');
+                excerpt.classList.add('line-clamp-3');
+                toggleText.innerText = "Read More ▾";
+                cardElement.classList.remove('ring-2', 'ring-p-neon');
+            }
+        }
+
+        // --- 4. Colour Palette Interaction ---
+        function updateColorPreview(hex, name, desc) {
+            const previewBox = document.getElementById('color-preview-box');
+            const title = document.getElementById('color-preview-title');
+            const descEl = document.getElementById('color-preview-desc');
+            const icon = document.getElementById('color-preview-icon');
+
+            previewBox.style.backgroundColor = hex;
+            
+            // Adjust text colour based on background darkness
+            if (hex === '#16082B' || hex === '#B533FF' || hex === '#10B981') {
+                title.style.color = '#FFFFFF';
+                descEl.style.color = '#F3E8FF';
+            } else {
+                title.style.color = '#16082B';
+                descEl.style.color = '#4B5563';
+            }
+
+            title.innerText = name;
+            descEl.innerText = desc;
+            
+            // Swap icons based on the energetic vibe of the colour
+            if(name === 'Deep Canvas') {
+                icon.innerText = '🌌';
+                previewBox.style.borderColor = '#B533FF';
+            }
+            else if(name === 'Synthesis Neon') {
+                icon.innerText = '⚡';
+                previewBox.style.borderColor = '#16082B';
+            }
+            else if(name === 'Soft Emerald') {
+                icon.innerText = '🌿';
+                previewBox.style.borderColor = '#16082B';
+            }
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            initChart();
+        };
+    </script>
+</body>
+</html>
